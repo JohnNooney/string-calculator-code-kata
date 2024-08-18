@@ -75,7 +75,7 @@ namespace StringCalculatorApp
             {
                 char currentChar = enumerator.Current;
 
-                if (currentChar == '-' && numbersInSegment.Count == 0 && enumerator.MoveNext())
+                if (currentChar == '-' && enumerator.MoveNext())
                 {
                     char nextChar = enumerator.Current;
 
@@ -95,14 +95,42 @@ namespace StringCalculatorApp
 
         public void addNumbersToList(LinkedList<int> numbersInSegment)
         {
-            if (delimitedStrings.Length > 1 && int.TryParse(string.Join("", numbersInSegment), out int parsedNumberSegment))
+            if (delimitedStrings.Length > 1)
             {
-                numberList.AddLast(parsedNumberSegment);
+                AddCompoundNumber(numbersInSegment);
             }
             else
             {
                 numberList = numbersInSegment;
             }
+        }
+
+        private void AddCompoundNumber(LinkedList<int> numbersInSegment)
+        {
+            bool negativeFlag = false;
+
+            // check if first number is negative to apply negativity after sanitation
+            if (numbersInSegment.Count > 0 && numbersInSegment.First() < 0)
+            {
+                negativeFlag = true;
+            }
+
+            string numberToParse = CombineAndSanatizeNumbersInSegment(numbersInSegment);
+
+            if (int.TryParse(numberToParse, out int parsedNumber))
+            {
+                // apply negativity 
+                parsedNumber = negativeFlag == true ? parsedNumber *= -1 : parsedNumber;
+
+                numberList.AddLast(parsedNumber);
+            }
+        }
+
+        public string CombineAndSanatizeNumbersInSegment(LinkedList<int> numbersInSegment)
+        {
+            string joinedNumbers = string.Join("", numbersInSegment);
+
+            return joinedNumbers.Replace("-", ""); ;
         }
 
         private int GetSumFromList()

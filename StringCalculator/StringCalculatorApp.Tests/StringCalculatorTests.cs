@@ -82,8 +82,8 @@ public class StringCalculatorTest
     public void shouldHandleMultipleNegativeNumbersWithDelimiters()
     {
 
-        var exception = Assert.Throws<ArgumentException>(() => calculator.Add("//,\n-1,2,-8,-5,-1"));
-        Assert.Equal("Negatives not allowed: -1,-8,-5,-1", exception.Message);
+        var exception = Assert.Throws<ArgumentException>(() => calculator.Add("//,\n-1,2,-8,-5,-2"));
+        Assert.Equal("Negatives not allowed: -1,-8,-5,-2", exception.Message);
     }
 
     [Fact]
