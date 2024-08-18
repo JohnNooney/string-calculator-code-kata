@@ -45,8 +45,7 @@ namespace StringCalculatorApp
         {
             if (CheckForDelimiterPrefix(numbersString))
             {
-                delimiters.Add(GetDelimiter(numbersString));
-                
+                delimiters = delimiters.Concat(GetDelimiters(numbersString)).ToList();
             }
 
             delimitedStrings = numbersString.Split(delimiters.ToArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -59,13 +58,20 @@ namespace StringCalculatorApp
             return numbersString.Length > 6 && numbersString.Substring(0, 2) == "//";
         }
 
-        private string GetDelimiter(string numbersString)
+        private List<string> GetDelimiters(string numbersString)
         {
             // Get the prefix based on this pattern - "//[delimiter]\n[numbers]"
             string delimiterPrefix = numbersString.Split("\n")[0];
 
             // Return delimiter by removing the starting //
-            return delimiterPrefix.Substring(2);
+            string sanitizedDelimiters = delimiterPrefix.Substring(2);
+
+            // Check for multiple delimiteres on this pattern [delimiter][delimiter]
+            List<string> delimitersList= sanitizedDelimiters.Split("[")
+                                            .Select(s => s.TrimEnd(']'))
+                                            .ToList();
+
+            return delimitersList;
         }
 
         private LinkedList<int> FindNumbersInCharsSegment(LinkedList<char> charsInSegment )

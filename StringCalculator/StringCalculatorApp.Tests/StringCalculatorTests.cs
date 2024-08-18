@@ -109,4 +109,19 @@ public class StringCalculatorTest
 
         Assert.Equal(6, sum);
     }
+
+    [Fact]
+    public void shouldHandleMultipleDelimiters()
+    {
+        int sum = calculator.Add("//[|][%]\n1|2%3");
+
+        Assert.Equal(6, sum);
+    }
+    [Fact]
+    public void shouldHandleMultipleDelimitersOfAnyLength()
+    {
+        int sum = calculator.Add("//[||][%]\n1||2%3|0");
+
+        Assert.Equal(33, sum);
+    }
 }
