@@ -2,8 +2,8 @@
 C# Console Application for the String Calculator Code Kata. 
 
 
-## Building the Project
-Navigate to the project root in a CLI terminal
+## Project Commands
+Navigate to the project in a CLI terminal: `cd ./string-calculator-code-kata/StringCalculator/StringCalculatorApp`
 
 
 Start build command:
@@ -11,9 +11,10 @@ Start build command:
 dotnet build
 ```
 
-## Running the tests
-Navigate to the project root in a CLI terminal
-
+Start command:
+```sh
+dotnet run
+```
 
 Start test command:
 ```sh
