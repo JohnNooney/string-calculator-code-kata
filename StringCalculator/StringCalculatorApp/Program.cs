@@ -1,2 +1,16 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using StringCalculatorApp;
+using System;
+
+namespace MyApp
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello World!");
+
+            StringCalculator calculator = new StringCalculator();
+            calculator.Add("");
+        }
+    }
+}
