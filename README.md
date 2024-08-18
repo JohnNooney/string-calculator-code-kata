@@ -25,25 +25,25 @@ This C# code kata is designed to help you learn test-first coding and refactorin
 
 ### Steps
 1. Create a StringCalculator with a method Add(string numbers) that returns an integer.
--  Start with the simplest test case of an empty string, then 1 number, then 2.
-- Solve things as simply as possible!
-- An empty string should return a sum of 0.
-- numbers can include 0, 1, or 2 integers (e.g. "", "1", "1,2").
-- Add returns the sum of the integers provided in the string numbers.
-- Remember to refactor after each test.
+  -  Start with the simplest test case of an empty string, then 1 number, then 2.
+  - Solve things as simply as possible!
+  - An empty string should return a sum of 0.
+  - numbers can include 0, 1, or 2 integers (e.g. "", "1", "1,2").
+  - Add returns the sum of the integers provided in the string numbers.
+  - Remember to refactor after each test.
 2. Allow the Add method to handle an unknown number of numbers (in the string).
 3. Allow the Add method to handle new lines between numbers (as well as commas):
-- Example: "1\n2,3" returns 6.
-- Example: "1,\n" is invalid, but no need to test for it. For this kata we are only concerned with testing correct inputs.
+  - Example: "1\n2,3" returns 6.
+  - Example: "1,\n" is invalid, but no need to test for it. For this kata we are only concerned with testing correct inputs.
 4. Allow the Add method to handle a different delimiter:
-- To change the delimiter, the beginning of the string should be a separate line formatted like this: "//[delimiter]\n[numbers]"
-- Example: "//;\n1;2" returns 3 (the delimiter is ";").
-- This first line is optional; all existing scenarios (using "," or "\n") should work as before.
+  - To change the delimiter, the beginning of the string should be a separate line formatted like this: "//[delimiter]\n[numbers]"
+  - Example: "//;\n1;2" returns 3 (the delimiter is ";").
+  - This first line is optional; all existing scenarios (using "," or "\n") should work as before.
 5. Calling Add with a negative number will throw an exception "Negatives not allowed: " and then listing all negative numbers that were in the list of numbers.
-- Example: "-1,2" throws "Negatives not allowed: -1".
-- Example: "2,-4,3,-5" throws "Negatives not allowed: -4,-5".
+  - Example: "-1,2" throws "Negatives not allowed: -1".
+  - Example: "2,-4,3,-5" throws "Negatives not allowed: -4,-5".
 6. Numbers greater than 1000 should be ignored.
-- Example: "1001,2" returns 2.
+  - Example: "1001,2" returns 2.
 7. Delimiters can be any length, using this syntax: "//[|||]\n1|||2|||3" returns 6.
 8. Allow multiple delimiters, using this syntax: "//[|][%]\n1|2%3" returns 6.
 9. Handle multiple delimiters of any length.
