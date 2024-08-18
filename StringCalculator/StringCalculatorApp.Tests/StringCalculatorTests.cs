@@ -51,7 +51,7 @@ public class StringCalculatorTest
     {
         int sum = calculator.Add("1\n61");
 
-        Assert.Equal(8, sum);
+        Assert.Equal(62, sum);
     }
 
     [Fact]
@@ -71,10 +71,18 @@ public class StringCalculatorTest
     }
 
     [Fact]
-    public void shouldHandleMultipleNegativeNumbers()
+    public void shouldHandleMixedNegativeNumbers()
     {
 
         var exception = Assert.Throws<ArgumentException>(() => calculator.Add("-1,2-8/-5-1"));
+        Assert.Equal("Negatives not allowed: -1", exception.Message);
+    }
+
+    [Fact]
+    public void shouldHandleMultipleNegativeNumbers()
+    {
+
+        var exception = Assert.Throws<ArgumentException>(() => calculator.Add("-1,2,-8\n-5,-1"));
         Assert.Equal("Negatives not allowed: -1,-8,-5,-1", exception.Message);
     }
 

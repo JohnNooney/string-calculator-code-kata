@@ -13,12 +13,16 @@ namespace StringCalculatorApp
     public class StringCalculator
     {
         private LinkedList<int> numberList;
-        private string? delimiter;
+        private List<string> delimiters;
         private string[] delimitedStrings;
 
         public StringCalculator() {
             numberList = new LinkedList<int>();
             delimitedStrings = new string[1];
+            delimiters = new List<string>();
+
+            delimiters.Add(",");
+            delimiters.Add("\n");
         }
 
         public int Add(string numbersString)
@@ -41,13 +45,11 @@ namespace StringCalculatorApp
         {
             if (CheckForDelimiterPrefix(numbersString))
             {
-                delimiter = GetDelimiter(numbersString);
-                delimitedStrings = numbersString.Split(delimiter);
+                delimiters.Add(GetDelimiter(numbersString));
+                
             }
-            else
-            {
-                delimitedStrings = new string[1] { numbersString };
-            }
+
+            delimitedStrings = numbersString.Split(delimiters.ToArray(), StringSplitOptions.RemoveEmptyEntries);
         }
 
         private bool CheckForDelimiterPrefix(string numbersString)
