@@ -28,7 +28,6 @@ namespace MyApp
                 catch (IOException e)
                 {
                     Console.WriteLine("Error reading from console: " + e.Message);
-                    // Handle the error, e.g., retry, log, exit
                     return;
                 }
 
