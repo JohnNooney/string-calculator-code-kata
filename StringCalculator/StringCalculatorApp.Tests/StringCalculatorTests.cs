@@ -1,3 +1,5 @@
+using System;
+
 namespace StringCalculatorApp.Tests;
 
 public class StringCalculatorTest
@@ -64,7 +66,32 @@ public class StringCalculatorTest
     public void shouldHandleNegativeNumbers()
     {
 
-        Assert.Throws<ArgumentException>(() => calculator.Add("-1,2"));
+        Assert.Throws<ArgumentException>(() => calculator.Add("-1,2"))
+            .Message.Equals("Negatives not allowed: -1");
+    }
+
+    [Fact]
+    public void shouldHandleMultipleNegativeNumbers()
+    {
+
+        var exception = Assert.Throws<ArgumentException>(() => calculator.Add("-1,2-8/-5-1"));
+        Assert.Equal("Negatives not allowed: -1,-8,-5,-1", exception.Message);
+    }
+
+    [Fact]
+    public void shouldHandleMultipleNegativeNumbersWithDelimiters()
+    {
+
+        var exception = Assert.Throws<ArgumentException>(() => calculator.Add("//,\n-1,2,-8,-5,-1"));
+        Assert.Equal("Negatives not allowed: -1,-8,-5,-1", exception.Message);
+    }
+
+    [Fact]
+    public void shouldHandleMultipleMixedNegativeNumbersWithDelimiters()
+    {
+
+        var exception = Assert.Throws<ArgumentException>(() => calculator.Add("//,\n-1,2-8,-5,-1"));
+        Assert.Equal("Negatives not allowed: -1,-5,-1", exception.Message);
     }
 
     [Fact]

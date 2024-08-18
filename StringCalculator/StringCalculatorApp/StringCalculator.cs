@@ -13,11 +13,12 @@ namespace StringCalculatorApp
     public class StringCalculator
     {
         private LinkedList<int> numberList;
-        private string delimiter;
+        private string? delimiter;
         private string[] delimitedStrings;
 
         public StringCalculator() {
             numberList = new LinkedList<int>();
+            delimitedStrings = new string[1];
         }
 
         public int Add(string numbersString)
@@ -28,29 +29,10 @@ namespace StringCalculatorApp
             foreach (string stringSegment in delimitedStrings)
             {
                 LinkedList<char> charsInSegment = new LinkedList<char>(stringSegment.ToList());
-                LinkedList<int> numbersInSegment = new LinkedList<int>();
 
-                foreach (char numberChar in charsInSegment)
-                {
-                    if (numberChar == '-')
-                    {
-                        numbersInSegment.AddLast(numberChar);
-                    }
-                    if (int.TryParse(numberChar.ToString(), out int number))
-                    {
-                        numbersInSegment.AddLast(number);
-                    }
-                }
+                LinkedList<int> numbersInSegment = FindNumbersInCharsSegment(charsInSegment);
 
-                if (delimitedStrings.Length > 1 && int.TryParse(string.Join("", numbersInSegment), out int parsedNumberSegment))
-                {
-                    numberList.AddLast(parsedNumberSegment);
-                }
-                else
-                {
-                    numberList = numbersInSegment;
-                }
-
+                addNumbersToList(numbersInSegment);
             }
 
             return GetSumFromList();
@@ -79,9 +61,48 @@ namespace StringCalculatorApp
         {
             // Get the prefix based on this pattern - "//[delimiter]\n[numbers]"
             string delimiterPrefix = numbersString.Split("\n")[0];
-            
+
             // Return delimiter by removing the starting //
             return delimiterPrefix.Substring(2);
+        }
+
+        private LinkedList<int> FindNumbersInCharsSegment(LinkedList<char> charsInSegment )
+        {
+            LinkedList<char>.Enumerator enumerator = charsInSegment.GetEnumerator();
+            LinkedList<int> numbersInSegment = new LinkedList<int>();
+
+            while (enumerator.MoveNext())
+            {
+                char currentChar = enumerator.Current;
+
+                if (currentChar == '-' && numbersInSegment.Count == 0 && enumerator.MoveNext())
+                {
+                    char nextChar = enumerator.Current;
+
+                    if (int.TryParse(nextChar.ToString(), out int number))
+                    {
+                        numbersInSegment.AddLast(-1 * number);
+                    }
+                }
+                else if (int.TryParse(currentChar.ToString(), out int number))
+                {
+                    numbersInSegment.AddLast(number);
+                }
+            }
+
+            return numbersInSegment;
+        }
+
+        public void addNumbersToList(LinkedList<int> numbersInSegment)
+        {
+            if (delimitedStrings.Length > 1 && int.TryParse(string.Join("", numbersInSegment), out int parsedNumberSegment))
+            {
+                numberList.AddLast(parsedNumberSegment);
+            }
+            else
+            {
+                numberList = numbersInSegment;
+            }
         }
 
         private int GetSumFromList()
@@ -91,17 +112,21 @@ namespace StringCalculatorApp
 
             while (numberList.Count > 0)
             {
-                if(numberList.First() < 0)
+                int currentNumber = numberList.First();
+
+                if (currentNumber < 0)
                 {
-                    negativeNumbersFound.Add(numberList.First());
+                    negativeNumbersFound.Add(currentNumber);
+                    numberList.RemoveFirst();
+                    continue;
                 }
 
-                sum += numberList.First();
+                sum += currentNumber;
                 numberList.RemoveFirst();
             }
 
             if(negativeNumbersFound.Count > 0) { 
-                throw new ArgumentException("Negatives not allowed:" + string.Join(',',negativeNumbersFound)); 
+                throw new ArgumentException("Negatives not allowed: " + string.Join(',',negativeNumbersFound)); 
             }
 
             return sum;
